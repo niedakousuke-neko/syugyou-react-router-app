@@ -64,38 +64,40 @@ export default function ToDoApp() {
   const todoListItems = todos.map(todo => (
     <li
       key={todo.id}
-      // classNameをcompleted状態に応じて変える
-      className={todo.completed ? 'completed' : ''}
+      className={`mb-2.5 p-2.5 rounded flex justify-between items-center ${todo.completed ? 'bg-gray-300 line-through text-gray-500' : 'bg-gray-200'}`}
     >
       {/* ToDoテキスト部分をクリックでトグルするように変更 */}
-      <span onClick={() => handleToggleComplete(todo.id)} style={{ cursor: 'pointer', flexGrow: 1 }}>
+      <span onClick={() => handleToggleComplete(todo.id)} className="cursor-pointer flex-1">
         {todo.text}
       </span>
       {/* 削除ボタンを追加 */}
-      <button onClick={() => handleDeleteTodo(todo.id)}>削除</button>
+      <button onClick={() => handleDeleteTodo(todo.id)} className="px-2.5 py-1.25 bg-red-500 text-white border-none rounded cursor-pointer text-sm hover:bg-red-600">削除</button>
     </li>
   ));
 
   return (
-    <div className="App">
-      <h1>ToDoアプリ</h1>
+    <div className="bg-gray-100 m-5 font-sans">
+      <div className="max-w-2xl mx-auto bg-white p-5 rounded-lg shadow-md">
+        <h1 className="text-center text-gray-800">ToDoアプリ</h1>
 
-      {/* ToDo入力フォーム */}
-      <form onSubmit={handleAddTodo}> {/* 送信時に関数を呼ぶ */}
-        <input
-          type="text"
-          placeholder="新しいToDoを入力"
-          value={inputText}       // inputの値をStateと紐付け
-          onChange={handleInputChange} // 値が変わったら関数を呼ぶ
-        />
-        <button type="submit">追加</button>
-      </form>
+        {/* ToDo入力フォーム */}
+        <form onSubmit={handleAddTodo} className="flex mb-5"> {/* 送信時に関数を呼ぶ */}
+          <input
+            type="text"
+            placeholder="新しいToDoを入力"
+            value={inputText}       // inputの値をStateと紐付け
+            onChange={handleInputChange} // 値が変わったら関数を呼ぶ
+            className="flex-1 p-2.5 border border-gray-300 rounded mr-2.5"
+          />
+          <button type="submit" className="px-3.5 py-2.5 bg-green-500 text-white border-none rounded cursor-pointer hover:bg-green-600">追加</button>
+        </form>
 
-      {/* ToDoリスト表示エリア */}
-      <h2>ToDoリスト</h2>
-      <ul>
-        {todoListItems} {/* Stateからリストを表示 */}
-      </ul>
+        {/* ToDoリスト表示エリア */}
+        <h2 className="text-center text-gray-800">ToDoリスト</h2>
+        <ul className="list-none p-0">
+          {todoListItems} {/* Stateからリストを表示 */}
+        </ul>
+      </div>
     </div>
   );
 }

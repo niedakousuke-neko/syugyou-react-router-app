@@ -1,9 +1,8 @@
 import ToDoApp from '~/components/ToDoApp';
-import './App.css'; // CSSファイルを読み込み
 
 export default function SyugyouRoute() {
   return (
-    <div className="App">
+    <div className="max-w-2xl mx-auto bg-white p-5 rounded-lg shadow-md">
       syugyou
       <ToDoApp />
     </div>
