@@ -75,10 +75,19 @@ export default function ToDoApp() {
     </li>
   ));
 
+  // 完了と未完了の数を計算
+  const completedCount = todos.filter(todo => todo.completed).length
+  const activeCount = todos.filter(todo => !todo.completed).length
+
   return (
     <div className="bg-gray-100 m-5 font-sans">
       <div className="max-w-2xl mx-auto bg-white p-5 rounded-lg shadow-md">
         <h1 className="text-center text-gray-800">ToDoアプリ</h1>
+
+        {/* 完了と未完了の数を表示 */}
+        <div className="text-center text-gray-700 mb-3">
+          完了: {completedCount} 未完了: {activeCount}
+        </div>
 
         {/* ToDo入力フォーム */}
         <form onSubmit={handleAddTodo} className="flex mb-5"> {/* 送信時に関数を呼ぶ */}
