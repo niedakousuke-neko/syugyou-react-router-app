@@ -82,7 +82,7 @@ export default function ToDoApp() {
   return (
     <div className="bg-gray-100 m-5 font-sans">
       <div className="max-w-2xl mx-auto bg-white p-5 rounded-lg shadow-md">
-        <h1 className="text-center text-gray-800">ToDoアプリ</h1>
+        <h1 className="text-center text-gray-800 mb-3">ToDoアプリ</h1>
 
         {/* 完了と未完了の数を表示 */}
         <div className="text-center text-gray-700 mb-3">
@@ -102,7 +102,7 @@ export default function ToDoApp() {
         </form>
 
         {/* ToDoリスト表示エリア */}
-        <h2 className="text-center text-gray-800">ToDoリスト</h2>
+        <h2 className="text-center text-gray-800 mb-3">ToDoリスト</h2>
         <ul className="list-none p-0">
           {todoListItems} {/* Stateからリストを表示 */}
         </ul>
