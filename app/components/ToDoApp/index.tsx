@@ -106,6 +106,11 @@ export default function ToDoApp() {
         <ul className="list-none p-0">
           {todoListItems} {/* Stateからリストを表示 */}
         </ul>
+        
+       {/* 未完了のToDoがない場合のメッセージを表示 */}
+        <div className="text-center text-gray-700 mb-3">
+          {activeCount === 0 && <p>未完了のToDoはありません</p>}
+        </div>
       </div>
     </div>
   );
