@@ -60,8 +60,23 @@ export default function ToDoApp() {
     );
   };
 
+  // フィルタリングの状態を管理するState
+  const [filter, setFilter] = useState<'all' | 'active' | 'completed'>('all')
+
+  // フィルタリングされたToDoリストを作る
+  const filteredTodos = todos.filter(todo => {
+    switch (filter) {
+      case 'active':
+        return !todo.completed
+      case 'completed':
+        return todo.completed
+      default:
+        return true
+    }
+  })
+
   // ToDoリストの表示部分を修正
-  const todoListItems = todos.map(todo => (
+  const todoListItems = filteredTodos.map(todo => (
     <li
       key={todo.id}
       className={`mb-2.5 p-2.5 rounded flex justify-between items-center ${todo.completed ? 'bg-gray-300 line-through text-gray-500' : 'bg-gray-200'}`}
@@ -89,6 +104,13 @@ export default function ToDoApp() {
           完了: {completedCount} 未完了: {activeCount}
         </div>
 
+        {/* フィルタリングボタン */}
+        <div className="flex justify-center space-x-2 mb-3">
+          <button onClick={() => setFilter('all')} className={`px-2.5 py-1.25 rounded ${filter === 'all' ? 'bg-blue-500 text-white' : 'bg-gray-300 text-gray-700'}`}>すべて</button>
+          <button onClick={() => setFilter('active')} className={`px-2.5 py-1.25 rounded ${filter === 'active' ? 'bg-blue-500 text-white' : 'bg-gray-300 text-gray-700'}`}>未完了</button>
+          <button onClick={() => setFilter('completed')} className={`px-2.5 py-1.25 rounded ${filter === 'completed' ? 'bg-blue-500 text-white' : 'bg-gray-300 text-gray-700'}`}>完了</button>
+        </div>     
+
         {/* ToDo入力フォーム */}
         <form onSubmit={handleAddTodo} className="flex mb-5"> {/* 送信時に関数を呼ぶ */}
           <input
@@ -107,7 +129,7 @@ export default function ToDoApp() {
           {todoListItems} {/* Stateからリストを表示 */}
         </ul>
         
-       {/* 未完了のToDoがない場合のメッセージを表示 */}
+        {/* 未完了のToDoがない場合のメッセージを表示 */}
         <div className="text-center text-gray-700 mb-3">
           {activeCount === 0 && <p>未完了のToDoはありません</p>}
         </div>
