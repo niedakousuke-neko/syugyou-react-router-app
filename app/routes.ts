@@ -5,4 +5,7 @@ export default [
   route("syugyou/", "./routes/syugyou.tsx", [
     route(":id", "./routes/syugyou.$id.tsx"),
   ]),
+  route("syugyou2/", "./routes/syugyou2.tsx", [
+    route(":id", "./routes/syugyou2.$id.tsx"),
+  ]),
 ] satisfies RouteConfig;
