@@ -1,15 +1,21 @@
 import React, { useState } from 'react'; // useState をインポート
+import { Link } from 'react-router';
 
 // ToDoアイテムの型を定義しておくと便利 (TypeScript)
-type Todo = {
+export type Todo = {
   id: number;
   text: string;
   completed: boolean;
 };
 
-export default function ToDoApp() {
-  // 1. ToDoリスト全体を管理するState (初期値は空配列にする)
-  const [todos, setTodos] = useState<Todo[]>([]);
+type Props = {
+  todos: Todo[];
+  setTodos: React.Dispatch<React.SetStateAction<Todo[]>>;
+  toggleTodo: (id: number) => void;
+  deleteTodo: (id: number) => void;
+};
+
+export default function ToDoApp({ todos, setTodos, toggleTodo, deleteTodo }: Props) {
 
   // 2. 入力フォームのテキストを管理するState (初期値は空文字列)
   const [inputText, setInputText] = useState<string>('');
@@ -36,29 +42,8 @@ export default function ToDoApp() {
     setInputText(''); // 追加後、入力フォームを空にする
   };
 
-  // ToDoの完了/未完了を切り替える関数
-  const handleToggleComplete = (id: number) => {
-    setTodos(
-      // todos配列をmapで処理して新しい配列を作る
-      todos.map(todo =>
-        // もし現在のtodoのidが、クリックされたidと同じなら
-        todo.id === id
-          // completedプロパティを反転させた新しいオブジェクトを返す
-          ? { ...todo, completed: !todo.completed }
-          // idが違う場合は、元のtodoオブジェクトをそのまま返す
-          : todo
-      )
-    );
-  };
-
-  // ToDoを削除する関数
-  const handleDeleteTodo = (id: number) => {
-    setTodos(
-      // todos配列をfilterで処理して新しい配列を作る
-      // クリックされたidと「異なる」idを持つToDoだけを残す
-      todos.filter(todo => todo.id !== id)
-    );
-  };
+  // このコンポーネントでは「ToDoリストの状態」を親コンポーネントから受け取る
+  // 完了切り替え / 削除のロジックは親側で管理しているので、ここでは関数を呼び出すだけ
 
   // フィルタリングの状態を管理するState
   const [filter, setFilter] = useState<'all' | 'active' | 'completed'>('all')
@@ -81,12 +66,32 @@ export default function ToDoApp() {
       key={todo.id}
       className={`mb-2.5 p-2.5 rounded flex justify-between items-center ${todo.completed ? 'bg-gray-300 line-through text-gray-500' : 'bg-gray-200'}`}
     >
-      {/* ToDoテキスト部分をクリックでトグルするように変更 */}
-      <span onClick={() => handleToggleComplete(todo.id)} className="cursor-pointer flex-1">
+      {/* ToDoテキストをクリックすると完了/未完了を切り替え */}
+      <button
+        type="button"
+        onClick={() => toggleTodo(todo.id)}
+        className="cursor-pointer flex-1 text-left"
+      >
         {todo.text}
-      </span>
-      {/* 削除ボタンを追加 */}
-      <button onClick={() => handleDeleteTodo(todo.id)} className="px-2.5 py-1.25 bg-red-500 text-white border-none rounded cursor-pointer text-sm hover:bg-red-600">削除</button>
+      </button>
+
+      <div className="flex items-center gap-2">
+        {/* 詳細ページへのリンク */}
+        <Link
+          to={`${todo.id}`}
+          className="px-2 py-1.25 bg-blue-500 text-white rounded text-sm hover:bg-blue-600"
+        >
+          詳細
+        </Link>
+        {/* 削除ボタン */}
+        <button
+          type="button"
+          onClick={() => deleteTodo(todo.id)}
+          className="px-2.5 py-1.25 bg-red-500 text-white border-none rounded cursor-pointer text-sm hover:bg-red-600"
+        >
+          削除
+        </button>
+      </div>
     </li>
   ));
 
